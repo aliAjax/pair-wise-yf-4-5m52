@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Search, Route, X, Trash2, Clock, MapPin } from 'lucide-react'
 import { useSceneStore } from '@/store/useSceneStore'
+import SceneOverview from '@/components/SceneOverview'
 import {
   formatTimestamp,
   getTimeOfDay,
@@ -78,6 +79,10 @@ export default function TimelinePage() {
             ))}
           </div>
         </div>
+
+        {selectedRoute && (
+          <SceneOverview routeName={selectedRoute} scenes={currentRouteScenes} />
+        )}
 
         {sorted.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-mist-400">

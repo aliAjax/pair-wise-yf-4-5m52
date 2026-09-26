@@ -2,11 +2,8 @@ import { useState, useEffect } from 'react'
 import { Bus, MapPin, Armchair, Clock, CloudSun, Signpost, TreePine, Users, FileText, Send } from 'lucide-react'
 import { useSceneStore } from '@/store/useSceneStore'
 import { getWeatherIcon, getTreeIcon, getPedestrianIcon, formatTimestamp } from '@/utils/sceneHelpers'
-import type { SceneFormData, Weather, TreeDensity, PedestrianStatus, SeatDirection } from '@/types'
-
-const WEATHERS: Weather[] = ['晴', '多云', '阴', '小雨', '大雨', '雪', '雾']
-const TREES: TreeDensity[] = ['稀疏', '适中', '茂密']
-const PEDESTRIANS: PedestrianStatus[] = ['稀少', '零星', '密集']
+import { WEATHER_OPTIONS, TREE_OPTIONS, PEDESTRIAN_OPTIONS } from '@/constants/sceneOptions'
+import type { SceneFormData, SeatDirection } from '@/types'
 
 const initialForm: SceneFormData = {
   routeName: '',
@@ -98,7 +95,7 @@ export default function RecordPage() {
           <div>
             <label className="text-mist-300 text-xs mb-1 block">天气</label>
             <div className="grid grid-cols-4 gap-2">
-              {WEATHERS.map((w) => (
+              {WEATHER_OPTIONS.map((w) => (
                 <button key={w} type="button" onClick={() => update('weather', w)}
                   className={`flex flex-col items-center gap-1 py-2 rounded-xl text-xs transition ${form.weather === w ? 'bg-dusk-400/20 border border-dusk-400 text-dusk-400' : 'bg-teal-850 border border-transparent text-mist-300'}`}>
                   {getWeatherIcon(w)}{w}
@@ -113,7 +110,7 @@ export default function RecordPage() {
           <div>
             <label className="text-mist-300 text-xs mb-1 flex items-center gap-1"><TreePine className="w-3 h-3" />树木密度</label>
             <div className="grid grid-cols-3 gap-2">
-              {TREES.map((t) => (
+              {TREE_OPTIONS.map((t) => (
                 <button key={t} type="button" onClick={() => update('treeDensity', t)}
                   className={`flex flex-col items-center gap-1 py-3 rounded-xl text-xs transition ${form.treeDensity === t ? 'bg-dusk-400/20 border border-dusk-400 text-dusk-400' : 'bg-teal-850 border border-transparent text-mist-300'}`}>
                   {getTreeIcon(t)}{t}
@@ -124,7 +121,7 @@ export default function RecordPage() {
           <div>
             <label className="text-mist-300 text-xs mb-1 flex items-center gap-1"><Users className="w-3 h-3" />行人状态</label>
             <div className="grid grid-cols-3 gap-2">
-              {PEDESTRIANS.map((p) => (
+              {PEDESTRIAN_OPTIONS.map((p) => (
                 <button key={p} type="button" onClick={() => update('pedestrianStatus', p)}
                   className={`flex flex-col items-center gap-1 py-3 rounded-xl text-xs transition ${form.pedestrianStatus === p ? 'bg-dusk-400/20 border border-dusk-400 text-dusk-400' : 'bg-teal-850 border border-transparent text-mist-300'}`}>
                   {getPedestrianIcon(p)}{p}
