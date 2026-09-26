@@ -33,7 +33,13 @@ export const useSceneStore = create<SceneState>((set) => ({
   loadAll: () => {
     const scenes = getAllScenes()
     const routeNames = getAllRouteNames()
-    set({ scenes, routeNames })
+    set((state) => ({
+      scenes,
+      routeNames,
+      currentRouteScenes: state.selectedRoute
+        ? getScenesByRoute(state.selectedRoute)
+        : [],
+    }))
   },
 
   saveScene: (data: SceneFormData) => {

@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Search, Route, X, Trash2, Clock, MapPin } from 'lucide-react'
 import { useSceneStore } from '@/store/useSceneStore'
+import RouteOverview from '@/components/RouteOverview'
+import { computeSceneOverview } from '@/utils/sceneStats'
 import {
   formatTimestamp,
   getTimeOfDay,
@@ -26,6 +28,11 @@ export default function TimelinePage() {
 
   const sorted = [...currentRouteScenes].sort(
     (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+  )
+
+  const overview = useMemo(
+    () => computeSceneOverview(currentRouteScenes),
+    [currentRouteScenes]
   )
 
   const handleDelete = (id: string) => {
@@ -78,6 +85,10 @@ export default function TimelinePage() {
             ))}
           </div>
         </div>
+
+        {selectedRoute && (
+          <RouteOverview overview={overview} routeName={selectedRoute} />
+        )}
 
         {sorted.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-mist-400">
